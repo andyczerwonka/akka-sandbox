@@ -1,20 +1,21 @@
 //#full-example
 package sandbox
 
-import org.scalatest.{ BeforeAndAfterAll, WordSpecLike, Matchers }
 import akka.actor.ActorSystem
-import akka.testkit.{ TestKit, TestProbe }
+import akka.testkit.{TestKit, TestProbe}
+import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
+import sandbox.Greeter._
+import sandbox.Printer._
+
 import scala.concurrent.duration._
 import scala.language.postfixOps
-import Greeter._
-import Printer._
 
 //#test-classes
 class AkkaQuickstartSpec(_system: ActorSystem)
   extends TestKit(_system)
-  with Matchers
-  with WordSpecLike
-  with BeforeAndAfterAll {
+    with Matchers
+    with WordSpecLike
+    with BeforeAndAfterAll {
   //#test-classes
 
   def this() = this(ActorSystem("AkkaQuickstartSpec"))
@@ -39,4 +40,5 @@ class AkkaQuickstartSpec(_system: ActorSystem)
   }
   //#first-test
 }
+
 //#full-example

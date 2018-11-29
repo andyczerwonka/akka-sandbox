@@ -1,22 +1,27 @@
 //#full-example
 package sandbox
 
-import akka.actor.{ Actor, ActorLogging, ActorRef, ActorSystem, Props }
+import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
 
 //#greeter-companion
 //#greeter-messages
 object Greeter {
   //#greeter-messages
   def props(message: String, printerActor: ActorRef): Props = Props(new Greeter(message, printerActor))
+
   //#greeter-messages
   final case class WhoToGreet(who: String)
+
   case object Greet
+
 }
+
 //#greeter-messages
 //#greeter-companion
 
 //#greeter-actor
 class Greeter(message: String, printerActor: ActorRef) extends Actor {
+
   import Greeter._
   import Printer._
 
@@ -25,12 +30,13 @@ class Greeter(message: String, printerActor: ActorRef) extends Actor {
   def receive = {
     case WhoToGreet(who) =>
       greeting = message + ", " + who
-    case Greet           =>
+    case Greet =>
       //#greeter-send-message
       printerActor ! Greeting(greeting)
-      //#greeter-send-message
+    //#greeter-send-message
   }
 }
+
 //#greeter-actor
 
 //#printer-companion
@@ -38,14 +44,18 @@ class Greeter(message: String, printerActor: ActorRef) extends Actor {
 object Printer {
   //#printer-messages
   def props: Props = Props[Printer]
+
   //#printer-messages
   final case class Greeting(greeting: String)
+
 }
+
 //#printer-messages
 //#printer-companion
 
 //#printer-actor
 class Printer extends Actor with ActorLogging {
+
   import Printer._
 
   def receive: PartialFunction[Any, Unit] = {
@@ -53,10 +63,12 @@ class Printer extends Actor with ActorLogging {
       log.info("Greeting received (from " + sender() + "): " + greeting)
   }
 }
+
 //#printer-actor
 
 //#main-class
 object AkkaQuickstart extends App {
+
   import Greeter._
 
   // Create the 'helloAkka' actor system
@@ -89,5 +101,6 @@ object AkkaQuickstart extends App {
   goodDayGreeter ! Greet
   //#main-send-messages
 }
+
 //#main-class
 //#full-example
